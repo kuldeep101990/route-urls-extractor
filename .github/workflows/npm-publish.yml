@@ -24,7 +24,7 @@ jobs:
 
       - name: Install dependencies
         # Assuming you're running this in the standalone folder structure we created
-        run: npm install ng-packagr typescript tslib @angular/core @angular/common @angular/router
+        run: npm install --no-save ng-packagr typescript tslib @angular/core @angular/common @angular/router
 
       - name: Build the library
         run: npx ng-packagr -p ng-package.json
