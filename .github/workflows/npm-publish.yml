@@ -1,0 +1,36 @@
+name: Publish to npm
+
+on:
+  # Triggers the workflow when a new GitHub Release is published
+  release:
+    types: [published]
+  # Allows you to trigger the workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          # This is required to use the NODE_AUTH_TOKEN in the publish step
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        # Assuming you're running this in the standalone folder structure we created
+        run: npm install ng-packagr typescript tslib @angular/core @angular/common @angular/router
+
+      - name: Build the library
+        run: npx ng-packagr -p ng-package.json
+
+      - name: Publish to npm
+        # Navigate to the compiled output directory and publish
+        run: npm publish dist/ng-route-extractor
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
