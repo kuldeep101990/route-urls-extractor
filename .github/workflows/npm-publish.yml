@@ -31,6 +31,6 @@ jobs:
 
       - name: Publish to npm
         # Navigate to the compiled output directory and publish
-        run: npm publish dist/ng-route-extractor
+        run: npm publish ./dist/ng-route-extractor
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
